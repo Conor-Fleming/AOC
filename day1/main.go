@@ -38,13 +38,19 @@ func main() {
 	}
 
 	max := 0
-	number := 0
-	for i, v := range elvesArr {
+	max2 := 0
+	max3 := 0
+	for _, v := range elvesArr {
 		if v > max {
+			max3 = max2
+			max2 = max
 			max = v
-			number = i
+		} else if v > max2 {
+			max3 = max2
+			max2 = v
+		} else if v > max3 {
+			max3 = v
 		}
 	}
-	fmt.Println(number, ":", max)
-
+	fmt.Println(max + max2 + max3)
 }
