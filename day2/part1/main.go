@@ -1,10 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
-	"io/ioutil"
 	"os"
-	"strings"
 )
 
 func main() {
@@ -15,23 +14,15 @@ func main() {
 	}
 	defer file.Close()
 
-	bytes, err := ioutil.ReadAll(file)
-	if err != nil {
-		panic(err)
+	var lines []string
+	scanner := bufio.NewScanner(file)
+	scanner.Split(bufio.ScanLines)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
 	}
 
-	elves := strings.Split(string(bytes), "\n")
-	var matches []string
-	var match string
-	for _, v := range elves {
-		if v != "\n" {
-			match += v
-		}
-		matches = append(matches, match)
-	}
-
-	/*total := 0
-	for _, v := range matches {
+	total := 0
+	for _, v := range lines {
 		fmt.Println(v)
 		switch v {
 		case "A X":
@@ -55,8 +46,7 @@ func main() {
 		default:
 			continue
 		}
-	}*/
+	}
 
-	fmt.Println(matches)
-	//fmt.Println(total)
+	fmt.Println(total)
 }
