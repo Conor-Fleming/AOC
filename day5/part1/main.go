@@ -23,15 +23,17 @@ import (
 */
 
 func main() {
-	arr1 := []rune{'B', 'G', 'S', 'C'}
-	arr2 := []rune{'T', 'M', 'W', 'H', 'J', 'N', 'V', 'G'}
-	arr3 := []rune{'M', 'Q', 'S'}
-	arr4 := []rune{'B', 'S', 'L', 'T', 'W', 'N', 'M'}
-	arr5 := []rune{'J', 'Z', 'F', 'T', 'V', 'G', 'W', 'P'}
-	arr6 := []rune{'C', 'T', 'B', 'G', 'Q', 'H', 'S'}
-	arr7 := []rune{'T', 'J', 'P', 'B', 'W'}
-	arr8 := []rune{'G', 'D', 'C', 'Z', 'F', 'T', 'Q', 'M'}
-	arr9 := []rune{'N', 'S', 'H', 'B', 'P', 'F'}
+	crates := [][]rune{
+		{'B', 'G', 'S', 'C'},
+		{'T', 'M', 'W', 'H', 'J', 'N', 'V', 'G'},
+		{'M', 'Q', 'S'},
+		{'B', 'S', 'L', 'T', 'W', 'N', 'M'},
+		{'J', 'Z', 'F', 'T', 'V', 'G', 'W', 'P'},
+		{'C', 'T', 'B', 'G', 'Q', 'H', 'S'},
+		{'T', 'J', 'P', 'B', 'W'},
+		{'G', 'D', 'C', 'Z', 'F', 'T', 'Q', 'M'},
+		{'N', 'S', 'H', 'B', 'P', 'F'},
+	}
 
 	//read contents of file to lines array
 	file, err := os.Open("../input.txt")
@@ -49,17 +51,23 @@ func main() {
 	}
 
 	for _, v := range lines {
-		v = strings.ReplaceAll(v, "move ", "")
-		v = strings.ReplaceAll(v, "from ", "")
-		v = strings.ReplaceAll(v, "to ", "")
-		moveData := strings.Split(v, " ")
+		instructions := strings.ReplaceAll(v, "move ", "")
+		instructions = strings.ReplaceAll(instructions, "from ", "")
+		instructions = strings.ReplaceAll(instructions, "to ", "")
+		moveData := strings.Split(instructions, " ")
 
 		quantityToMove, _ := strconv.Atoi(string(moveData[0]))
 		movedFrom, _ := strconv.Atoi(string(moveData[1]))
+		movedFrom--
 		movedTo, _ := strconv.Atoi(string(moveData[2]))
+		movedTo--
+
 		for i := 0; i < quantityToMove; i++ {
-			to := fmt.Sprint("arr%v", movedTo)
-			from := fmt.Sprintf("arr%v", movedFrom)
+			crates[movedTo] = append(crates[movedTo], crates[movedFrom][len(crates[movedFrom])-1])
+			crates[movedFrom] = crates[movedFrom][:len(crates[movedFrom])-1]
 		}
+	}
+	for _, v := range crates {
+		fmt.Println(string(v))
 	}
 }
