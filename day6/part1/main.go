@@ -18,7 +18,7 @@ func main() {
 		}
 		result := removeDuplicateStr(test)
 		if len(result) == len(test) && i >= 3 {
-			fmt.Println(i + 14)
+			fmt.Println(i + 4)
 			break
 		}
 	}
