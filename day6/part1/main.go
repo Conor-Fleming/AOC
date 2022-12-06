@@ -11,11 +11,14 @@ func main() {
 		panic(err)
 	}
 
-	for _, v := range buff {
+	for i := range buff[:len(buff)-14] {
 		test := []byte{}
-		for i := 0; i < 14; i++ {
-			test = append(test, buff[i])
-			fmt.Print(len(test))
+		for j := 0; j < 14; j++ {
+			test = append(test, buff[i+j])
+		}
+		result := removeDuplicateStr(test)
+		if len(result) == len(test) && i >= 13 {
+			fmt.Println(i + 14)
 			break
 		}
 	}
