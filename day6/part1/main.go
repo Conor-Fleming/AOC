@@ -11,17 +11,24 @@ func main() {
 		panic(err)
 	}
 
-	two := 1
-	three := 2
-	four := 3
-	for one := 0; one < len(buff); one++ {
-		fmt.Println(buff[one], buff[two], buff[three], buff[four])
-		if buff[one] != buff[two] && buff[one] != buff[three] && buff[one] != buff[four] && buff[two] != buff[three] && buff[two] != buff[four] && buff[three] != buff[four] {
-			fmt.Println("signal: ", one+4)
+	for _, v := range buff {
+		test := []byte{}
+		for i := 0; i < 14; i++ {
+			test = append(test, buff[i])
+			fmt.Print(len(test))
 			break
 		}
-		two++
-		three++
-		four++
 	}
+}
+
+func removeDuplicateStr(byteSlice []byte) []byte {
+	allKeys := make(map[byte]bool)
+	list := []byte{}
+	for _, item := range byteSlice {
+		if _, value := allKeys[item]; !value {
+			allKeys[item] = true
+			list = append(list, item)
+		}
+	}
+	return list
 }
