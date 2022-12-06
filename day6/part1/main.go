@@ -11,9 +11,9 @@ func main() {
 		panic(err)
 	}
 
-	for i := range buff[:len(buff)-14] {
+	for i := range buff[:len(buff)-4] {
 		test := []byte{}
-		for j := 0; j < 14; j++ {
+		for j := 0; j < 4; j++ {
 			test = append(test, buff[i+j])
 		}
 		result := removeDuplicateStr(test)
