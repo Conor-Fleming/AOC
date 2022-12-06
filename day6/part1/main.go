@@ -17,7 +17,7 @@ func main() {
 			test = append(test, buff[i+j])
 		}
 		result := removeDuplicateStr(test)
-		if len(result) == len(test) && i >= 13 {
+		if len(result) == len(test) && i >= 3 {
 			fmt.Println(i + 14)
 			break
 		}
