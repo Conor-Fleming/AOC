@@ -4,10 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-<<<<<<< HEAD
-"bufio"
-=======
->>>>>>> 0aceeca9c5f8110f9677b1a14717c1df6d4ebffa
 )
 
 func main() {
@@ -21,14 +17,6 @@ func main() {
 	var lines []string
 	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanLines)
-<<<<<<< HEAD
-	for scanner.Scan(){
-		lines = append(lines, scanner.Text())
-	}
-	
-	total := 0
-	for _, v := range lines {
-=======
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
 	}
@@ -36,26 +24,37 @@ func main() {
 	total := 0
 	for _, v := range lines {
 		fmt.Println(v)
->>>>>>> 0aceeca9c5f8110f9677b1a14717c1df6d4ebffa
 		switch v {
 		case "A X":
-			total += 4
-		case "A Y":
-			total += 8
-		case "A Z":
+			//lose 0
+			//rock beats scissors(3)
 			total += 3
+		case "A Y":
+			//draw 3
+			//rock draws rock(1)
+			total += 4
+		case "A Z":
+			//win 6
+			//rock loses (paper: 2)
+			total += 8
 		case "B X":
-			total++
+			//lose 0
+			total += 1
 		case "B Y":
+			//draw 3
 			total += 5
 		case "B Z":
+			//win 6
 			total += 9
 		case "C X":
-			total += 7
-		case "C Y":
+			//lose 0
 			total += 2
-		case "C Z":
+		case "C Y":
+			//draw 3
 			total += 6
+		case "C Z":
+			//win 6
+			total += 7
 		default:
 			continue
 		}
