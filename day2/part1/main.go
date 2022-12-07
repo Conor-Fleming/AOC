@@ -4,39 +4,15 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-<<<<<<< HEAD
-"bufio"
-=======
->>>>>>> 0aceeca9c5f8110f9677b1a14717c1df6d4ebffa
 )
 
 func main() {
-	file, err := os.Open("../guide.txt")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer file.Close()
-
-	var lines []string
-	scanner := bufio.NewScanner(file)
-	scanner.Split(bufio.ScanLines)
-<<<<<<< HEAD
-	for scanner.Scan(){
-		lines = append(lines, scanner.Text())
-	}
-	
-	total := 0
-	for _, v := range lines {
-=======
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
+	lines := readFile("../input.txt")
 
 	total := 0
 	for _, v := range lines {
 		fmt.Println(v)
->>>>>>> 0aceeca9c5f8110f9677b1a14717c1df6d4ebffa
+
 		switch v {
 		case "A X":
 			total += 4
@@ -62,4 +38,22 @@ func main() {
 	}
 
 	fmt.Println(total)
+}
+
+func readFile(filepath string) []string {
+	//read contents of file to lines array
+	file, err := os.Open(filepath)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	var lines []string
+	scanner := bufio.NewScanner(file)
+
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+
+	return lines
 }
