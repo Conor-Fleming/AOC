@@ -60,15 +60,20 @@ func main() {
 
 	for i := 0; i < len(lines); i++ {
 		value := lines[i]
-		switch {
-		case value == "$ cd /":
+		if value == "$ cd /" {
 			cur = root
-		case value == "$ cd ..":
+			continue
+		}
+		if value == "$ cd .." {
 			cur = cur.Parent
-		case strings.HasPrefix(value, "$ cd "):
+			continue
+		}
+		if strings.HasPrefix(value, "$ cd ") {
 			lineContents := strings.Split(value, " ")
 			cur = cur.getDirectory(lineContents[2])
-		case value == "$ ls":
+			continue
+		}
+		if value == "$ ls" {
 			for {
 				if i == len(lines)-1 || lines[i+1][0] == '$' {
 					break
@@ -90,6 +95,7 @@ func main() {
 
 				cur.addDirectory(lineContents2[1])
 			}
+			continue
 		}
 	}
 
