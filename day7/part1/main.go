@@ -58,31 +58,39 @@ func main() {
 	root := &Tree{Name: "/", Children: []*Tree{}}
 	cur := root
 
+	//create filesystem tree
 	for i := 0; i < len(lines); i++ {
 		value := lines[i]
-		if value == "$ cd /" {
+		switch {
+		// return to root directory
+		// sets current directory to root
+		case value == "$ cd /":
 			cur = root
-			continue
-		}
-		if value == "$ cd .." {
+
+		//set current directory to its parent
+		case value == "$ cd ..":
 			cur = cur.Parent
-			continue
-		}
-		if strings.HasPrefix(value, "$ cd ") {
+
+		// get directory name from line
+		// call getDirectory method that finds the given dir from cur Children array
+		case strings.HasPrefix(value, "$ cd "):
 			lineContents := strings.Split(value, " ")
 			cur = cur.getDirectory(lineContents[2])
-			continue
-		}
-		if value == "$ ls" {
+
+			// handling the files or directories from ls command
+		case value == "$ ls":
 			for {
+				//if end of input or a new command on next line break from inner for loop
 				if i == len(lines)-1 || lines[i+1][0] == '$' {
 					break
 				}
 
+				//otherwise increment index(move to next line)
 				i++
 				val := lines[i]
 				lineContents2 := strings.Split(val, " ")
 
+				//if not a directory add file to Children Slice
 				if lineContents2[0] != "dir" {
 					//fmt.Println(lineContents2[0])
 					size, err := strconv.Atoi(lineContents2[0])
@@ -93,9 +101,9 @@ func main() {
 					continue
 				}
 
+				//otherwise add the directory to Children slice of current Tree node
 				cur.addDirectory(lineContents2[1])
 			}
-			continue
 		}
 	}
 
