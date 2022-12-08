@@ -4,29 +4,55 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
 )
 
 func main() {
 	lines := readFile("../input.txt")
-}
+	total := 0
 
-func checkTree(lines []string) int{
-
-		tree :=
-		for i := 0; i < 3; i++ {
-			for j := 0; j < len(lines); j++ {
-				tree := lines[j][i]
-				if tree > 
-
+	for i, v := range lines {
+		for j, val := range v {
+			//outter edge of matrix will always be visable
+			if i == 0 || j == 0 || i == len(lines)-1 || j == len(lines[0])-1 {
+				total++
+				continue
+			}
+			//if either func returns true add one to total
+			if checkRow(lines, byte(val), i, j) || checkColumn(lines, byte(val), i, j) {
+				total++
 			}
 		}
+	}
 
-	for i := len(lines[0]); i >= 0; i--{
-		for j := len(lines); j > 0; j--{
-			
+	fmt.Println(total)
+}
+
+// check the row
+func checkRow(lines []string, val byte, row, col int) bool {
+	for columnright := col + 1; columnright < len(lines[row]); columnright++ {
+		if val <= lines[row][columnright] {
+			for columnleft := col - 1; columnleft >= 0; columnleft-- {
+				if val <= lines[row][columnleft] {
+					return false
+				}
+			}
 		}
 	}
+	return true
+}
+
+// check the column
+func checkColumn(lines []string, val byte, row, col int) bool {
+	for rowdown := row + 1; rowdown < len(lines); rowdown++ {
+		if val <= lines[rowdown][col] {
+			for rowup := row - 1; rowup >= 0; rowup-- {
+				if val <= lines[rowup][col] {
+					return false
+				}
+			}
+		}
+	}
+	return true
 }
 
 func readFile(filepath string) []string {
