@@ -19,6 +19,41 @@ func main() {
 	tail := Coords{0, 0}
 	visited[tail] = true
 
+	visited = moveRope(direction, number, visited, head, tail)
+
+	fmt.Println(len(visited))
+}
+
+func tailCoordsCheck(tail Coords, visited map[Coords]bool) map[Coords]bool {
+	if _, ok := visited[tail]; !ok {
+		visited[tail] = true
+	}
+	return visited
+}
+
+func readFile(filepath string) ([]string, []int) {
+	//read contents of file to lines array
+	file, err := os.Open(filepath)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	var lines []string
+	var number []int
+	scanner := bufio.NewScanner(file)
+	scanner.Split(bufio.ScanLines)
+
+	for scanner.Scan() {
+		lines = append(lines, string(scanner.Text()[0]))
+		val, _ := strconv.Atoi(scanner.Text()[2:])
+		number = append(number, val)
+	}
+
+	return lines, number
+}
+
+func moveRope(direction []string, number []int, visited map[Coords]bool, head, tail Coords) map[Coords]bool {
 	for i, v := range direction {
 		num := number[i]
 		switch v {
@@ -83,37 +118,6 @@ func main() {
 			}
 
 		}
-
-	}
-	fmt.Println(len(visited))
-
-}
-
-func tailCoordsCheck(tail Coords, visited map[Coords]bool) map[Coords]bool {
-	if _, ok := visited[tail]; !ok {
-		visited[tail] = true
 	}
 	return visited
-}
-
-func readFile(filepath string) ([]string, []int) {
-	//read contents of file to lines array
-	file, err := os.Open(filepath)
-	if err != nil {
-		panic(err)
-	}
-	defer file.Close()
-
-	var lines []string
-	var number []int
-	scanner := bufio.NewScanner(file)
-	scanner.Split(bufio.ScanLines)
-
-	for scanner.Scan() {
-		lines = append(lines, string(scanner.Text()[0]))
-		val, _ := strconv.Atoi(scanner.Text()[2:])
-		number = append(number, val)
-	}
-
-	return lines, number
 }
