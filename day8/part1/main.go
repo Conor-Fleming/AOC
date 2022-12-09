@@ -52,6 +52,7 @@ func checkColumn(lines []string, val byte, row, col int) bool {
 			}
 		}
 	}
+
 	return true
 }
 
