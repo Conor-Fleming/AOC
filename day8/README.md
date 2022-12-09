@@ -50,11 +50,13 @@ The Elves don't care about distant trees taller than those found by the rules ab
 
 In the example above, consider the middle 5 in the second row:
 
+```
 30373
 25512
 65332
 33549
 35390
+```
 
     Looking up, its view is not blocked; it can see 1 tree (of height 3).
     Looking left, its view is blocked immediately; it can see only 1 tree (of height 5, right next to it).
@@ -65,11 +67,13 @@ A tree's scenic score is found by multiplying together its viewing distance in e
 
 However, you can do even better: consider the tree of height 5 in the middle of the fourth row:
 
+```
 30373
 25512
 65332
 33549
 35390
+```
 
     Looking up, its view is blocked at 2 trees (by another tree with a height of 5).
     Looking left, its view is not blocked; it can see 2 trees.
