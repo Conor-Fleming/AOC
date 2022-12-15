@@ -14,7 +14,7 @@ The Elves take turns writing down the number of Calories contained by the variou
 
 For example, suppose the Elves finish writing their items' Calories and end up with the following list:
 
-`1000
+```1000
 2000
 3000
 
@@ -27,7 +27,8 @@ For example, suppose the Elves finish writing their items' Calories and end up w
 8000
 9000
 
-10000`
+10000
+```
 This list represents the Calories of the food carried by five Elves:
 
 The first Elf is carrying food with `1000`, `2000`, and `3000` Calories, a total of `6000` Calories.
@@ -46,7 +47,7 @@ By the time you calculate the answer to the Elves' question, they've already rea
 
 To avoid this unacceptable situation, the Elves would instead like to know the total Calories carried by the top three Elves carrying the most Calories. That way, even if one of those Elves runs out of snacks, they still have two backups.
 
-In the example above, the top three Elves are the fourth Elf (with 24000 Calories), then the third Elf (with 11000 Calories), then the fifth Elf (with 10000 Calories). The sum of the Calories carried by these three elves is 45000.
+In the example above, the top three Elves are the fourth Elf (with `24000` Calories), then the third Elf (with `11000` Calories), then the fifth Elf (with 10000 Calories). The sum of the Calories carried by these three elves is `45000`.
 
 Find the top three Elves carrying the most Calories. How many Calories are those Elves carrying in total?
 
