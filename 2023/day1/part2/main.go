@@ -9,12 +9,16 @@ import (
 	"unicode"
 )
 
+var digitStrings = map[string]string{"one": "1", "two": "2", "three": "3", "four": "4", "five": "5", "six": "6", "seven": "7", "eight": "8", "nine": "9"}
+
 func main() {
 	lines := readFile("../input.txt")
 	answer := 0
 	for _, v := range lines {
 		digitizedString := replaceStrings(v)
+		fmt.Println(v)
 		numList := getNum(digitizedString)
+		fmt.Println(numList)
 		answer += getSum(numList)
 		fmt.Println(answer)
 	}
@@ -23,15 +27,18 @@ func main() {
 }
 
 func replaceStrings(line string) string {
-	line = strings.ReplaceAll(line, "one", "1")
-	line = strings.ReplaceAll(line, "two", "2")
-	line = strings.ReplaceAll(line, "three", "3")
-	line = strings.ReplaceAll(line, "four", "4")
-	line = strings.ReplaceAll(line, "five", "5")
-	line = strings.ReplaceAll(line, "six", "6")
-	line = strings.ReplaceAll(line, "seven", "7")
-	line = strings.ReplaceAll(line, "eight", "8")
-	line = strings.ReplaceAll(line, "nine", "9")
+	digString := ""
+	for _, v := range line {
+		if !unicode.IsLetter(v) {
+			digString = ""
+			continue
+		}
+		digString += string(v)
+
+		if v, ok := digitStrings[digString]; ok {
+			line = strings.Replace(line, digString, v, 1)
+		}
+	}
 
 	return line
 }
