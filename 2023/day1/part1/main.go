@@ -13,7 +13,6 @@ func main() {
 	answer := 0
 	for _, v := range lines {
 		numList := getNum(v)
-
 		answer += getSum(numList)
 	}
 
@@ -35,7 +34,6 @@ func getNum(line string) []int {
 func getSum(ints []int) int {
 	first := ints[0] * 10
 	second := ints[len(ints)-1]
-
 	return first + second
 }
 
