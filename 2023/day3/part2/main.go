@@ -45,13 +45,14 @@ func isGear(star point, lines [][]rune) (int, bool) {
 		newY := star.y + dy[i]
 
 		// Check if the new coordinates are within the grid boundaries
-		if newX >= 0 && newY >= 0 && newX < len(lines)-1 && newY < len(lines[0])-1 {
+		if newX >= 0 && newY >= 0 && newX < len(lines) && newY < len(lines[0])-1 {
 			start := point{newX, newY}
 			if unicode.IsDigit(lines[newX][newY]) {
-				number := getNumber(start, lines)
-				fmt.Println(string(number))
-				if _, ok := numbers[number]; !ok {
-					numbers[number] = true
+				number, valid := getNumber(start, lines, star)
+				if valid {
+					if _, ok := numbers[number]; !ok {
+						numbers[number] = true
+					}
 				}
 			}
 		}
@@ -69,23 +70,50 @@ func isGear(star point, lines [][]rune) (int, bool) {
 	return ratio, true
 }
 
-func getNumber(startPos point, grid [][]rune) int {
+func getNumber(startPos point, grid [][]rune, star point) (int, bool) {
 	number := ""
-	dy := []int{-2, -1, 1, 2}
+	dy := []int{-2, -1, 0, 1, 2}
 
-	for i := 0; i < 4; i++ {
+	for i := 0; i < 5; i++ {
 		indexCheck := startPos.y + dy[i]
-		if indexCheck >= 0 && indexCheck < len(grid[startPos.x]) {
+		if indexCheck >= 0 && indexCheck < len(grid[startPos.x])-1 {
 			val := grid[startPos.x][indexCheck]
+
+			//for same line numbers
+			if startPos.x == star.x {
+				if startPos.y < star.y {
+					if indexCheck >= star.y {
+						continue
+					}
+
+				}
+
+				if startPos.y > star.y {
+					if indexCheck <= star.y {
+						continue
+					}
+				}
+			}
 			if unicode.IsDigit(val) {
 				number += string(val)
 			}
+
+		}
+	}
+
+	if len(number) > 3 {
+		return 0, false
+	}
+
+	for _, v := range number {
+		if !unicode.IsDigit(v) {
+			return 0, false
 		}
 	}
 
 	resultNumber, _ := strconv.Atoi(number)
 
-	return resultNumber
+	return resultNumber, true
 }
 
 func readFile(filepath string) [][]rune {
