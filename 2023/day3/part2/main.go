@@ -48,8 +48,8 @@ func isGear(star point, lines [][]rune) (int, bool) {
 		if newX >= 0 && newY >= 0 && newX < len(lines) && newY < len(lines[0])-1 {
 			start := point{newX, newY}
 			if unicode.IsDigit(lines[newX][newY]) {
-				number, valid := getNumber(start, lines, star)
-				if valid {
+				number := getNumber(start, lines)
+				if number != 0 {
 					if _, ok := numbers[number]; !ok {
 						numbers[number] = true
 					}
@@ -70,50 +70,49 @@ func isGear(star point, lines [][]rune) (int, bool) {
 	return ratio, true
 }
 
-func getNumber(startPos point, grid [][]rune, star point) (int, bool) {
-	number := ""
-	dy := []int{-2, -1, 0, 1, 2}
+func getNumber(startPos point, grid [][]rune) int {
+	var digits []string
 
-	for i := 0; i < 5; i++ {
-		indexCheck := startPos.y + dy[i]
-		if indexCheck >= 0 && indexCheck < len(grid[startPos.x])-1 {
-			val := grid[startPos.x][indexCheck]
+	//get digits left of start
+	for i := startPos.y - 1; i >= 0; i-- {
+		if i >= 0 && i < len(grid[startPos.x])-1 {
+			val := grid[startPos.x][i]
 
-			//for same line numbers
-			if startPos.x == star.x {
-				if startPos.y < star.y {
-					if indexCheck >= star.y {
-						continue
-					}
-
-				}
-
-				if startPos.y > star.y {
-					if indexCheck <= star.y {
-						continue
-					}
-				}
-			}
 			if unicode.IsDigit(val) {
-				number += string(val)
+				digits = append([]string{string(val)}, digits...)
+			} else {
+				break
 			}
-
 		}
 	}
 
-	if len(number) > 3 {
-		return 0, false
-	}
+	//starting digit
+	digits = append(digits, string(grid[startPos.x][startPos.y]))
 
-	for _, v := range number {
-		if !unicode.IsDigit(v) {
-			return 0, false
+	for i := startPos.y + 1; i < len(grid[startPos.x])-1; i++ {
+		if i >= 0 && i < len(grid[startPos.x])-1 {
+			val := grid[startPos.x][i]
+
+			if unicode.IsDigit(val) {
+				digits = append(digits, string(val))
+			} else {
+				break
+			}
 		}
 	}
 
-	resultNumber, _ := strconv.Atoi(number)
+	return convertSliceToNumber(digits)
+}
 
-	return resultNumber, true
+func convertSliceToNumber(values []string) int {
+	numberString := ""
+	for _, v := range values {
+		numberString += v
+	}
+
+	result, _ := strconv.Atoi(numberString)
+
+	return result
 }
 
 func readFile(filepath string) [][]rune {
