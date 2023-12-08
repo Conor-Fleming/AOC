@@ -107,7 +107,7 @@ func groupTypes(handsList hands) (five, four, full, three, two, one, high hands)
 		max := 0
 		maxKeys := make([]rune, 0)
 		for k, v := range charCount {
-			if v == 'J' {
+			if k == 'J' {
 				continue
 			}
 			if v > max {
@@ -118,8 +118,8 @@ func groupTypes(handsList hands) (five, four, full, three, two, one, high hands)
 			}
 		}
 
-		maxK := maxKeys[0]
-		if len(maxKeys) > 1 {
+		var maxK rune
+		if len(maxKeys) > 0 {
 			maxK = maxKeys[0]
 			for _, v := range maxKeys {
 				if v > maxK {
