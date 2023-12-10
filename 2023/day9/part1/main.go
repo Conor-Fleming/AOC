@@ -24,19 +24,15 @@ func main() {
 
 	result := 0
 	for _, v := range sequences {
-		val := Calculate(v)
-		result += val
+		storage := make([][]int, 0)
+		result += findNext(unpack(v, storage))
 	}
 
 	fmt.Println(result)
 }
 
-func Calculate(sequence []int) int {
-	storage := make([][]int, 0)
-	return findNext(unpack(sequence, storage))
-}
-
 func findNext(seqs [][]int) int {
+
 	for i := len(seqs) - 1; i > 0; i-- {
 		seqs[i-1] = append(seqs[i-1], seqs[i][len(seqs[i])-1]+seqs[i-1][len(seqs[i])-1])
 	}
