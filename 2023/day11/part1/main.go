@@ -9,7 +9,8 @@ import (
 
 func main() {
 	grid := readFile("../input.txt")
-	grid = expandUniv(grid)
+	grid = expandUnivRows(grid)
+	grid = expandUnivCols(grid)
 
 	for _, v := range grid {
 		fmt.Println(string(v))
@@ -17,7 +18,39 @@ func main() {
 
 }
 
-func expandUniv(grid [][]rune) [][]rune {
+func expandUnivCols(grid [][]rune) [][]rune {
+	indexes := make([]int, 0)
+	for i := 0; i < len(grid[0]); i++ {
+		for j := 0; j < len(grid); j++ {
+			if grid[j][i] == '#' {
+				break
+			}
+
+			if j == len(grid)-1 {
+				indexes = append(indexes, i)
+			}
+		}
+
+	}
+
+	return addCol(grid, indexes)
+}
+
+func addCol(grid [][]rune, indexes []int) [][]rune {
+	fmt.Println(indexes)
+	for ext, v := range indexes {
+		for i := range grid {
+			firstPart := append([]rune{}, grid[i][:v+1+ext]...)
+			secondPart := append([]rune{}, grid[i][v+1+ext:]...)
+			firstPart = append(firstPart, '.')
+			grid[i] = append(firstPart, secondPart...)
+		}
+	}
+
+	return grid
+}
+
+func expandUnivRows(grid [][]rune) [][]rune {
 	for i, v := range grid {
 		if !strings.Contains(string(v), "#") {
 			firstPart := append([][]rune{}, grid[:i+1]...)
@@ -25,32 +58,6 @@ func expandUniv(grid [][]rune) [][]rune {
 			firstPart = append(firstPart, v)
 			grid = append(firstPart, secondPart...)
 		}
-	}
-
-	for i := range grid {
-		for j, val := range grid {
-			if grid[j][i] == '#' {
-				fmt.Println("here")
-				for i := range grid {
-					firstPart := append([]rune{}, val[:i+1]...)
-					secondPart := append([]rune{}, val[i+1:]...)
-					firstPart = append(firstPart, '.')
-					grid[j] = append(firstPart, secondPart...)
-				}
-			}
-		}
-	}
-
-	return grid
-}
-
-func addCol(grid [][]rune, index int) [][]rune {
-	for i := range grid {
-		firstPart := append(grid[i], grid[i][:index+1]...)
-		secondPart := append(grid[i], grid[i][index+1:]...)
-		firstPart = append(firstPart, '.')
-		grid[i] = append(firstPart, secondPart...)
-		fmt.Println(grid)
 	}
 
 	return grid
