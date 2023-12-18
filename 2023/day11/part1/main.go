@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"slices"
 	"strconv"
@@ -24,8 +25,18 @@ func main() {
 
 	//get slice of pairs of galaxies
 	pairs := numberAndPair(grid)
-	fmt.Println(len(pairs))
 
+	fmt.Println(getPaths(pairs))
+
+}
+
+func getPaths(pairs map[galaxyPair]bool) int {
+	total := 0.0
+	for k := range pairs {
+		total += math.Abs(float64(k.second.x)-float64(k.first.x)) + math.Abs(float64(k.second.y)-float64(k.first.y))
+	}
+
+	return int(total)
 }
 
 func numberAndPair(grid [][]string) map[galaxyPair]bool {
