@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math"
 	"os"
 	"slices"
 	"strconv"
@@ -31,12 +30,20 @@ func main() {
 }
 
 func getPaths(pairs map[galaxyPair]bool) int {
-	total := 0.0
+	total := 0
 	for k := range pairs {
-		total += math.Abs(float64(k.second.x)-float64(k.first.x)) + math.Abs(float64(k.second.y)-float64(k.first.y))
+		total += abs(k.second.x-k.first.x) + abs(k.second.y-k.first.y)
 	}
 
-	return int(total)
+	return total
+}
+
+func abs(val int) int {
+	if val < 0 {
+		return -val
+	}
+
+	return val
 }
 
 func numberAndPair(grid [][]string) map[galaxyPair]bool {
@@ -53,13 +60,16 @@ func numberAndPair(grid [][]string) map[galaxyPair]bool {
 		}
 	}
 
-	for i, v := range gals {
+	for i := 0; i < len(gals); i++ {
 		for j := i + 1; j < len(gals); j++ {
-			pair := galaxyPair{v, gals[j]}
+			pair := galaxyPair{gals[i], gals[j]}
 			if _, ok := pairs[pair]; !ok {
 				pairs[pair] = true
 			}
 		}
+	}
+	for k := range pairs {
+		fmt.Println(k)
 	}
 
 	return pairs
