@@ -35,9 +35,25 @@ func part1(reports [][]int) int {
 	return safeCount
 }
 
-func part2([][]int) int {
+func part2(reports [][]int) int {
+	safeCount := 0
+	for _, v := range reports {
+		if isSafe(v) {
+			safeCount++
+			continue
+		}
 
-	return 0
+		for i := 0; i < len(v); i++ {
+			new := append([]int(nil), v[:i]...) // Create a fresh slice
+			new = append(new, v[i+1:]...)       // Append the rest of the slice
+			if isSafe(new) {
+				safeCount++
+				break
+			}
+		}
+	}
+
+	return safeCount
 }
 
 func isSafe(report []int) bool {
