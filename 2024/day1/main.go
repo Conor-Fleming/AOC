@@ -22,8 +22,8 @@ func main() {
 		}
 	}
 
-	fmt.Println(part1(left, right))
-	fmt.Println(part2(left, right))
+	fmt.Println("Part 1: ", part1(left, right))
+	fmt.Println("Part 2: ", part2(left, right))
 }
 
 func part1(left, right []int) int {
@@ -47,9 +47,24 @@ func part1(left, right []int) int {
 	return sum
 }
 
-func part2(left, right []int) string {
+func part2(left, right []int) int {
+	similarities := make([]int, 0)
+	for _, v := range left {
+		repeat := 0
+		for _, val := range right {
+			if v == val {
+				repeat++
+			}
+		}
+		similarities = append(similarities, (repeat * v))
+	}
 
-	return ""
+	sum := 0
+	for _, v := range similarities {
+		sum += v
+	}
+
+	return sum
 }
 
 func readFile(filepath string) []string {
