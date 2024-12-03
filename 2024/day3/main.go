@@ -12,7 +12,7 @@ import (
 var memoryString string
 
 func main() {
-	file, err := os.Open("input.txt") // Replace "your_file.txt" with your file's name
+	file, err := os.Open("input.txt")
 	if err != nil {
 		fmt.Println("Error opening file:", err)
 		return
@@ -81,28 +81,4 @@ func part2(memory string) int {
 	}
 
 	return sum
-}
-
-func readFile(filepath string) []string {
-	//read contents of file to lines array
-	file, err := os.Open(filepath)
-	if err != nil {
-		panic(err)
-	}
-	defer file.Close()
-
-	//var words []string
-	var lines []string
-	scanner := bufio.NewScanner(file)
-
-	for scanner.Scan() {
-		// Split the line into words
-		//lineWords := strings.Fields(scanner.Text())
-		lines = append(lines, scanner.Text())
-
-		// Append each word to the slice
-		//words = append(words, lineWords...)
-	}
-
-	return lines
 }
