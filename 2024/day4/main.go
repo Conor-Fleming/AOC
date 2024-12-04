@@ -15,7 +15,7 @@ func main() {
 	lines := readFile("input.txt")
 
 	fmt.Println("Part 1: ", part1(lines))
-	fmt.Println("Part 1: ", part2())
+	fmt.Println("Part 1: ", part2(lines))
 }
 
 func part1(lines []string) int {
@@ -87,9 +87,54 @@ func part1(lines []string) int {
 	return count
 }
 
-func part2() int {
+func part2(lines []string) int {
+	points := make([]point, 0)
+	for i, v := range lines {
+		for j, val := range v {
+			if val == 'A' {
+				points = append(points, point{
+					x: i,
+					y: j,
+				})
+			}
+		}
+	}
 
-	return 0
+	count := 0
+	for _, v := range points {
+		//DiagnalUpRight DiagnalUpLeft DiagnalDownRight DiagnalDownLeft
+		if (v.x >= 1 && v.y < len(lines[v.x])-1) && (v.x >= 1 && v.y >= 1) && (v.x < len(lines)-1 && v.y < len(lines[v.x])-1) && (v.x < len(lines)-1 && v.y >= 1) {
+			//M M
+			// A
+			//S S
+			if (string(lines[v.x-1][v.y-1]) == "M" && string(lines[v.x+1][v.y+1]) == "S") && (string(lines[v.x-1][v.y+1]) == "M" && string(lines[v.x+1][v.y-1]) == "S") {
+				count++
+			}
+
+			//S S
+			// A
+			//M M
+			if (string(lines[v.x-1][v.y-1]) == "S" && string(lines[v.x+1][v.y+1]) == "M") && (string(lines[v.x-1][v.y+1]) == "S" && string(lines[v.x+1][v.y-1]) == "M") {
+				count++
+			}
+
+			//M S
+			// A
+			//M S
+			if (string(lines[v.x-1][v.y-1]) == "M" && string(lines[v.x+1][v.y+1]) == "S") && (string(lines[v.x-1][v.y+1]) == "S" && string(lines[v.x+1][v.y-1]) == "M") {
+				count++
+			}
+
+			//S M
+			// A
+			//S M
+			if (string(lines[v.x-1][v.y-1]) == "S" && string(lines[v.x+1][v.y+1]) == "M") && (string(lines[v.x-1][v.y+1]) == "M" && string(lines[v.x+1][v.y-1]) == "S") {
+				count++
+			}
+		}
+	}
+
+	return count
 }
 
 func readFile(filepath string) []string {
